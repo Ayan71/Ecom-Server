@@ -9,6 +9,7 @@ import router from "./routes/testRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import { connectDB } from "./config/db.js"
 import cookieParser from "cookie-parser"
+import cloudinary  from "cloudinary"
 //middleware
 app.use(morgan('dev'))
 app.use(express.json())
@@ -26,6 +27,12 @@ dotenv.config()
 //database connection 
 connectDB();
 
+//cloudinary config
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 app.get('/', (req, res) => {
     return res.status(200).send("<h1>aello world</h1>")
