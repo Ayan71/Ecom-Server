@@ -1,5 +1,7 @@
 import JWT from "jsonwebtoken";
 import UserModel from "../models/userModel.js";
+
+//USER AUTH
 export const isAuth = async (req, res, next) => {
   const { token } = req.cookies;
 
@@ -14,3 +16,14 @@ export const isAuth = async (req, res, next) => {
   req.user = await UserModel.findById(decodeData);
   next();
 };
+
+// ADMIN AUTH
+export  const isAdmin=async(req,res,next)=>{
+  if(req.user.role!=="admin"){
+    return res.status(401).json({
+      success:false,
+      message:"admin only"
+    })
+  }
+  next()
+}

@@ -7,9 +7,13 @@ import cors from "cors"
 import dotenv from "dotenv"
 import router from "./routes/testRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
+import productRoutes from "./routes/productRoutes.js"
+import categoryRoutes from './routes/categoryRoutes.js'
+import orderRoutes from "./routes/orderRoutes.js"
 import { connectDB } from "./config/db.js"
 import cookieParser from "cookie-parser"
 import cloudinary  from "cloudinary"
+import Stripe from "stripe"
 //middleware
 app.use(morgan('dev'))
 app.use(express.json())
@@ -19,6 +23,11 @@ app.use(cookieParser())
 //routes
 app.use("/api/v1",router)
 app.use("/api/v1/user",userRoutes)
+app.use("/api/v1/product",productRoutes)
+app.use("/api/v1/category",categoryRoutes)
+app.use("/api/v1/order",orderRoutes)
+
+
 
 
 //dot env config
@@ -26,6 +35,10 @@ dotenv.config()
 
 //database connection 
 connectDB();
+
+//stripe configuration 
+ export const stripe=new Stripe(process.env.STRIPE_API_SECRET)
+
 
 //cloudinary config
 cloudinary.v2.config({
